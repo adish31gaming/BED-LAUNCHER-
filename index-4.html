@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>BedLauncher</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: LOGIN
+  ═══════════════════════════════════════════ -->
+  <div id="screen-login" class="screen active">
+    <div class="login-bg">
+      <div class="pixel-grid"></div>
+      <div class="scan-line"></div>
+    </div>
+    <div class="login-container">
+      <div class="login-logo">
+        <div class="logo-icon">
+          <div class="cube-face top"></div>
+          <div class="cube-face left"></div>
+          <div class="cube-face right"></div>
+        </div>
+        <span class="logo-text">BED<span class="accent">LAUNCHER</span></span>
+        <span class="logo-sub">BEDROCK EDITION</span>
+      </div>
+
+      <div class="login-card">
+        <div class="card-label">PLAYER LOGIN</div>
+
+        <div class="input-group">
+          <label class="input-label">USERNAME</label>
+          <div class="input-wrapper">
+            <span class="input-icon">◈</span>
+            <input type="text" id="login-username" class="text-input" placeholder="Enter username" maxlength="16" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">DISPLAY NAME <span class="optional">(optional)</span></label>
+          <div class="input-wrapper">
+            <span class="input-icon">◉</span>
+            <input type="text" id="login-displayname" class="text-input" placeholder="How others see you" maxlength="24" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">PLAY MODE</label>
+          <div class="mode-selector">
+            <button class="mode-btn active" data-mode="offline">
+              <span class="mode-icon">⬡</span>
+              OFFLINE
+            </button>
+            <button class="mode-btn" data-mode="online">
+              <span class="mode-icon">⬢</span>
+              ONLINE
+            </button>
+          </div>
+        </div>
+
+        <div id="login-error" class="error-msg hidden"></div>
+
+        <button id="btn-login" class="btn-primary">
+          <span class="btn-text">LAUNCH</span>
+          <span class="btn-arrow">▶</span>
+        </button>
+
+        <div class="login-footer">
+          <span class="disclaimer">This launcher is not affiliated with Mojang or Microsoft.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: HOME (main hub)
+  ═══════════════════════════════════════════ -->
+  <div id="screen-home" class="screen">
+    <div class="app-header">
+      <div class="header-left">
+        <div class="header-logo">BL</div>
+        <div class="header-info">
+          <span class="header-title">BEDLAUNCHER</span>
+          <span class="header-user" id="header-username">Player</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="header-btn" id="btn-profile-menu" title="Profile">
+          <div class="avatar-mini" id="header-avatar">P</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="home-content">
+      <!-- Active version card -->
+      <div class="active-version-card" id="active-version-card">
+        <div class="avc-bg"></div>
+        <div class="avc-content">
+          <div class="avc-label">SELECTED VERSION</div>
+          <div class="avc-version" id="avc-version-name">No version selected</div>
+          <div class="avc-meta" id="avc-version-meta">Select a version to play</div>
+          <div class="avc-status" id="avc-status">
+            <span class="status-dot"></span>
+            <span class="status-text">READY</span>
+          </div>
+        </div>
+        <button class="btn-play" id="btn-play" disabled>
+          <span class="play-icon">▶</span>
+          <span>PLAY</span>
+        </button>
+      </div>
+
+      <!-- Quick stats -->
+      <div class="quick-stats">
+        <div class="stat-card">
+          <span class="stat-value" id="stat-installed">0</span>
+          <span class="stat-label">INSTALLED</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="stat-available">0</span>
+          <span class="stat-label">AVAILABLE</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="stat-storage">0 MB</span>
+          <span class="stat-label">STORAGE</span>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="section-title">QUICK ACTIONS</div>
+      <div class="quick-actions">
+        <button class="action-card" data-nav="versions">
+          <span class="action-icon">⬡</span>
+          <span class="action-label">VERSIONS</span>
+          <span class="action-sub">Browse & Install</span>
+        </button>
+        <button class="action-card" data-nav="installed">
+          <span class="action-icon">◈</span>
+          <span class="action-label">INSTALLED</span>
+          <span class="action-sub">Manage Local</span>
+        </button>
+        <button class="action-card" data-nav="downloads">
+          <span class="action-icon">⬇</span>
+          <span class="action-label">DOWNLOADS</span>
+          <span class="action-sub" id="active-dl-count">No active</span>
+        </button>
+        <button class="action-card" data-nav="settings">
+          <span class="action-icon">◎</span>
+          <span class="action-label">SETTINGS</span>
+          <span class="action-sub">Configure</span>
+        </button>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="section-title">RECENT ACTIVITY</div>
+      <div class="activity-list" id="activity-list">
+        <div class="empty-state">No recent activity</div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-nav="home">
+        <span class="nav-icon">⌂</span>
+        <span class="nav-label">HOME</span>
+      </button>
+      <button class="nav-btn" data-nav="versions">
+        <span class="nav-icon">⬡</span>
+        <span class="nav-label">VERSIONS</span>
+      </button>
+      <button class="nav-btn" data-nav="installed">
+        <span class="nav-icon">◈</span>
+        <span class="nav-label">INSTALLED</span>
+      </button>
+      <button class="nav-btn" data-nav="downloads">
+        <span class="nav-icon">⬇</span>
+        <span class="nav-label">DOWNLOADS</span>
+      </button>
+      <button class="nav-btn" data-nav="settings">
+        <span class="nav-icon">◎</span>
+        <span class="nav-label">SETTINGS</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: VERSIONS
+  ═══════════════════════════════════════════ -->
+  <div id="screen-versions" class="screen">
+    <div class="page-header">
+      <button class="back-btn" data-nav="home">‹</button>
+      <h1 class="page-title">VERSION MANAGER</h1>
+      <button class="icon-btn" id="btn-refresh-versions" title="Refresh">↻</button>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">ALL</button>
+      <button class="filter-btn" data-filter="release">RELEASE</button>
+      <button class="filter-btn" data-filter="beta">BETA</button>
+      <button class="filter-btn" data-filter="preview">PREVIEW</button>
+    </div>
+
+    <div class="search-bar">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="version-search" class="search-input" placeholder="Search versions..." />
+    </div>
+
+    <div class="versions-list" id="versions-list">
+      <div class="loading-state">
+        <div class="loader"></div>
+        <span>Loading versions...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: INSTALLED
+  ═══════════════════════════════════════════ -->
+  <div id="screen-installed" class="screen">
+    <div class="page-header">
+      <button class="back-btn" data-nav="home">‹</button>
+      <h1 class="page-title">INSTALLED</h1>
+      <button class="icon-btn" id="btn-clear-all" title="Clear all">✕</button>
+    </div>
+
+    <div class="storage-bar-container">
+      <div class="storage-label">
+        <span>STORAGE USED</span>
+        <span id="storage-used-label">0 MB / 2 GB</span>
+      </div>
+      <div class="storage-bar">
+        <div class="storage-fill" id="storage-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="installed-list" id="installed-list">
+      <div class="empty-state">
+        <span class="empty-icon">◈</span>
+        <span>No versions installed</span>
+        <button class="btn-secondary small" data-nav="versions">Browse Versions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: DOWNLOADS
+  ═══════════════════════════════════════════ -->
+  <div id="screen-downloads" class="screen">
+    <div class="page-header">
+      <button class="back-btn" data-nav="home">‹</button>
+      <h1 class="page-title">DOWNLOADS</h1>
+      <button class="icon-btn" id="btn-clear-downloads" title="Clear completed">✕</button>
+    </div>
+
+    <div class="downloads-list" id="downloads-list">
+      <div class="empty-state">
+        <span class="empty-icon">⬇</span>
+        <span>No active downloads</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN: SETTINGS
+  ═══════════════════════════════════════════ -->
+  <div id="screen-settings" class="screen">
+    <div class="page-header">
+      <button class="back-btn" data-nav="home">‹</button>
+      <h1 class="page-title">SETTINGS</h1>
+    </div>
+
+    <div class="settings-content">
+
+      <!-- Profile section -->
+      <div class="settings-section">
+        <div class="settings-section-title">PROFILE</div>
+        <div class="profile-card">
+          <div class="profile-avatar" id="settings-avatar">P</div>
+          <div class="profile-info">
+            <div class="profile-name" id="settings-username">Player</div>
+            <div class="profile-mode" id="settings-mode">Offline Mode</div>
+          </div>
+          <button class="btn-secondary small" id="btn-edit-profile">EDIT</button>
+        </div>
+      </div>
+
+      <!-- Edit profile (hidden by default) -->
+      <div class="settings-section" id="edit-profile-section" style="display:none">
+        <div class="settings-section-title">EDIT PROFILE</div>
+        <div class="input-group">
+          <label class="input-label">USERNAME</label>
+          <div class="input-wrapper">
+            <span class="input-icon">◈</span>
+            <input type="text" id="settings-username-input" class="text-input" maxlength="16" />
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">DISPLAY NAME</label>
+          <div class="input-wrapper">
+            <span class="input-icon">◉</span>
+            <input type="text" id="settings-displayname-input" class="text-input" maxlength="24" />
+          </div>
+        </div>
+        <button class="btn-primary" id="btn-save-profile">SAVE CHANGES</button>
+      </div>
+
+      <!-- Launcher settings -->
+      <div class="settings-section">
+        <div class="settings-section-title">LAUNCHER</div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Auto-close on launch</span>
+            <span class="setting-desc">Close launcher when game starts</span>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="setting-autoclose" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Show beta versions</span>
+            <span class="setting-desc">Display beta & preview builds</span>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="setting-showbeta" checked />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Keep download history</span>
+            <span class="setting-desc">Remember completed downloads</span>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="setting-keephistory" checked />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Parallel downloads</span>
+            <span class="setting-desc">Max simultaneous downloads</span>
+          </div>
+          <div class="setting-control">
+            <select class="select-input" id="setting-paralleldl">
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game settings -->
+      <div class="settings-section">
+        <div class="settings-section-title">GAME</div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">RAM Allocation</span>
+            <span class="setting-desc">Memory for game (MB)</span>
+          </div>
+          <div class="setting-control">
+            <select class="select-input" id="setting-ram">
+              <option value="512">512 MB</option>
+              <option value="1024" selected>1024 MB</option>
+              <option value="2048">2048 MB</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-name">Resolution</span>
+            <span class="setting-desc">Default window size</span>
+          </div>
+          <div class="setting-control">
+            <select class="select-input" id="setting-resolution">
+              <option value="720p">720p</option>
+              <option value="1080p" selected>1080p</option>
+              <option value="native">Native</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data management -->
+      <div class="settings-section">
+        <div class="settings-section-title">DATA</div>
+
+        <button class="setting-action danger" id="btn-clear-cache">
+          <span class="action-label-full">CLEAR CACHE</span>
+          <span class="action-badge" id="cache-size-badge">Calculating...</span>
+        </button>
+
+        <button class="setting-action danger" id="btn-reset-launcher">
+          <span class="action-label-full">RESET LAUNCHER</span>
+          <span class="action-badge">Remove all data</span>
+        </button>
+
+        <button class="setting-action" id="btn-logout">
+          <span class="action-label-full">LOGOUT</span>
+          <span class="action-badge">Return to login</span>
+        </button>
+      </div>
+
+      <div class="settings-version">BedLauncher v1.0.0 · Not affiliated with Mojang/Microsoft</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       MODALS
+  ═══════════════════════════════════════════ -->
+
+  <!-- Confirm modal -->
+  <div id="modal-confirm" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-title" id="modal-confirm-title">Confirm</div>
+      <div class="modal-body" id="modal-confirm-body">Are you sure?</div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="modal-confirm-cancel">CANCEL</button>
+        <button class="btn-danger" id="modal-confirm-ok">CONFIRM</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Play modal -->
+  <div id="modal-play" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-title">LAUNCHING</div>
+      <div class="launch-animation">
+        <div class="launch-cube">
+          <div class="cube-face top"></div>
+          <div class="cube-face left"></div>
+          <div class="cube-face right"></div>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-play-version">Loading...</div>
+      <div class="launch-progress">
+        <div class="launch-bar" id="launch-bar"></div>
+      </div>
+      <div class="launch-status" id="launch-status">Initializing...</div>
+      <button class="btn-secondary" id="modal-play-close" style="display:none">CLOSE</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
